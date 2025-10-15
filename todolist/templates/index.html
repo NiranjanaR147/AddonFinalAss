@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petals&Progress</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="app-header">
+            <h1>🌸Today's To-Do List 🌸</h1>
+            <p class="tagline">"Your time is limited, don't waste it living someone else's life." - Steve Jobs</p>
+        </header>
+
+        <form action="{{ url_for('add_task') }}" method="post" class="task-form">
+            <input type="text" name="content" placeholder="What are the tasks to be done?" required class="task-input">
+            <button type="submit" class="add-btn">
+                <span class="btn-icon">✨</span>
+                Add tasks✅
+            </button>
+        </form>
+
+        <div class="tasks-container">
+            {% if tasks %}
+                <ul class="task-list">
+                    {% for task in tasks %}
+                        <li class="task-item {% if task.completed %}completed{% endif %}">
+                            <label class="task-checkbox">
+                                <input type="checkbox" 
+                                       onchange="window.location.href='{{ url_for('toggle_task', task_id=task.id) }}'"
+                                       {% if task.completed %}checked{% endif %}>
+                                <span class="checkmark"></span>
+                            </label>
+                            
+                            <span class="task-content">{{ task.content }}</span>
+                            
+                            <div class="task-meta">
+                                <span class="task-date">{{ task.created_at }}</span>
+                                <a href="{{ url_for('delete_task', task_id=task.id) }}" class="delete-btn" title="Delete">
+                                    🗑️
+                                </a>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <div class="empty-state">
+                    <h3>No tasks blooming yet - garden's empty! 🌱</h3>
+                    <p>Your first task is... to add a task! 😉</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <footer class="app-footer">
+            <p>{{ tasks|length }} task(s) in total</p>
+        </footer>
+    </div>
+</body>
+</html>
