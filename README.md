@@ -12,4 +12,4 @@ This repository contains two web applications built with Python Flask as part of
 - Features:
   - Add, view, and delete tasks
   - Mark tasks as complete
-  - Beautiful lavender-themed UI
+  - lavender-themed
